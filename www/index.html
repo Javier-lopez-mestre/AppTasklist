@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AppTasklist</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #tasques {
+            margin-top: 20px;
+        }
+        #afegirTasca {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Llista de Tasques</h1>
+    <ul id="tasques">
+        <li>Tasca 1</li>
+        <li>Tasca 2</li>
+        <li>Tasca 3</li>
+    </ul>
+    <button id="afegirTasca">Afegir Tasca</button>
+
+    <div id="modalTasca" title="Afegir nova tasca" style="display:none;">
+        <form id="formTasca">
+            <label for="novaTasca">Tasca:</label>
+            <input type="text" id="novaTasca" name="novaTasca" required>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="cordova.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
