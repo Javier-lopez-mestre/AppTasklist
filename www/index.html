@@ -16,6 +16,9 @@
         #afegirTasca {
             margin-top: 10px;
         }
+        li button {
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -31,6 +34,13 @@
         <form id="formTasca">
             <label for="novaTasca">Tasca:</label>
             <input type="text" id="novaTasca" name="novaTasca" required>
+        </form>
+    </div>
+
+    <div id="modalEdita" title="Edita la tasca" style="display:none;">
+        <form id="formEdita">
+            <label for="textEdita">Nova Tasca:</label>
+            <input type="text" id="textEdita" name="textEdita" required>
         </form>
     </div>
 
