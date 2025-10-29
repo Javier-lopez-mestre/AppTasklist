@@ -1,9 +1,23 @@
-document.addEventListener('deviceready', onDeviceReady, false);
+if (window.cordova) {
+    document.addEventListener('deviceready', onDeviceReady, false);
+    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+
+} else {
+    $(document).ready(onDeviceReady);
+    console.log('App lista en navegador');
+}
+
+// document.addEventListener('deviceready', onDeviceReady, false);
+// $(document).ready(onDeviceReady);
+
 
 let $liActual = null; 
+let tasques = [];
 
 function onDeviceReady() {
-    console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+    // console.log('Running cordova-' + cordova.platformId + '@' + cordova.version);
+    // console.log('App lista en navegador');
+
 
     $("#modalTasca").dialog({
         autoOpen: false,
@@ -13,7 +27,10 @@ function onDeviceReady() {
                 let tasca = $("#novaTasca").val().trim();
                 if(tasca) {
                     creaTasca(tasca);
+                    tasques.push(tasca);
+                    desaTasques();
                     $("#novaTasca").val("");
+                    desaTasques();
                     $(this).dialog("close");
                 }
             },
@@ -34,9 +51,14 @@ function onDeviceReady() {
             "OK": function() {
                 let nouText = $("#textEdita").val().trim();
                 if(nouText && $liActual) {
+                    let index = $liActual.index();
+                    tasques[index] = nouText;
+
                     $liActual.contents().filter(function() {
                         return this.nodeType === 3; 
                     }).first().replaceWith(nouText + " ");
+
+                    desaTasques();
                 }
                 $(this).dialog("close");
             },
@@ -46,12 +68,15 @@ function onDeviceReady() {
         }
     });
 
-    let tasquesInicials = ["Tasca 1", "Tasca 2", "Tasca 3"];
-    $("#tasques").empty(); 
+    tasques = JSON.parse(localStorage.getItem("tasques")) || [];
 
-    tasquesInicials.forEach(text => {
-        creaTasca(text);
-    });
+    $('#tasques').empty();
+    if (tasques.length === 0) {
+        tasques = ["Tasca 1", "Tasca 2", "Tasca 3"];
+        desaTasques();
+    }
+
+    tasques.forEach(text => creaTasca(text));
 }
 
 function creaTasca(text) {
@@ -73,7 +98,13 @@ function creaTasca(text) {
 
 function elimina(event) {
     let caller = event.target || event.srcElement;
-    $(caller).closest("li").remove();
+    let $li = $(caller).closest("li");
+    let index = $li.index();
+
+    tasques.splice(index, 1);
+    desaTasques();
+
+    $li.remove();
 }
 
 function editar(event) {
@@ -85,4 +116,8 @@ function editar(event) {
 
     $("#textEdita").val(text);
     $("#modalEdita").dialog("open");
+}
+
+function desaTasques() {
+    localStorage.setItem("tasques", JSON.stringify(tasques));
 }
